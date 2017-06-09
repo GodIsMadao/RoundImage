@@ -20,6 +20,10 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -130,7 +134,18 @@ public class RoundImage extends ImageView {
 
 //   使用轮子，Imageloader加载网络图片
     public void setInternetImageString(String url){
-
+//        采用默认的配置
+        ImageLoaderConfiguration config = ImageLoaderConfiguration.createDefault(mContext);
+        if(!ImageLoader.getInstance().isInited()){
+            ImageLoader.getInstance().init(config);
+        }
+        //显示图片的配置
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .cacheOnDisk(true)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+        ImageLoader.getInstance().displayImage(url,this,options);
     }
 
     @Override
